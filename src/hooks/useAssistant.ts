@@ -1,87 +1,95 @@
 import { useState } from 'react'
+import APICaller from '@/lib/api';
+import { ConversationType, Message, MessageRole } from '@/types';
 
-type MessageTypes = 'system' | 'assistant' | 'prompt' | 'command' | 'result'
-
-interface Message {
-  text: string
-  type: MessageTypes
+interface ConversationCommand {
+  command: string;
+  parameters: Record<string, string>;
+  result: string;
 }
 
-interface AssistantResponse {
-  thought: string
-  command: string
-  parameters: Record<string, any>
+export interface ConversationItem {
+  type: ConversationType;
+  text: string;
+  command?: ConversationCommand; 
 }
 
 export const useAssistant = () => {
-  const [messages, setMessages] = useState<Message[]>([])
+  const [conversationItems, setConversationItems] = useState<ConversationItem[]>([])
   const [loading, setLoading] = useState(false)
-
-  const executeCommand = async (command: string, parameters: Record<string, any>) => {
-    const response = await fetch('/api/execute', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        command,
-        parameters
-      }),
-    })    
-    const text = await response.text()
-    addMessage(text, 'result')
-    return text
-  }
-
-  const parseResponse = async (response: AssistantResponse, parentMessageId: string) => {
-    addMessage(response.thought, 'assistant')
-    if (!response.command) {
-      setLoading(false)
-      return
-    }
-
-    addMessage(response.command + "\n" + JSON.stringify(response.parameters, null, 2), 'command')
-    const result = await executeCommand(response.command, response.parameters)
-    await askAssistant(result, parentMessageId)
-  }
-
-  const addMessage = (text: string, type: MessageTypes) => {
-    setMessages((messages) => [...messages, { text, type }])
-  }
-
-  const askAssistant = async (text: string, parentMessageId?: string) => {
-    const response = await fetch('/api/gpt', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        prompt: text,
-        parentMessageId,
-      }),
-    })
-
-    // FIXME: Implement error handling and retry logic
-    const responseJson = await response.json()
-    console.log("Assistant response", responseJson)
-    const parsedResponse = JSON.parse(responseJson.text)
-    await parseResponse(parsedResponse, responseJson.parentMessageId)
-  }
-
-  const sendPrompt = async (text: string) => {
-    setLoading(true)
-    addMessage(text, 'prompt')
-    await askAssistant(text)
-  }
+  const api = new APICaller()
 
   const reset = () => {
-    setMessages([])
+    setConversationItems([]);
+  }
+
+  const addConversationItem = (item: ConversationItem) => {
+    setConversationItems((prev) => [...prev, item])
+  }
+
+  const convertToMessages = (): Message[] => {
+    const messages: Message[] = [];
+    conversationItems.forEach((item) => {
+      if (item.type === ConversationType.prompt) {
+        messages.push({
+          role: MessageRole.user,
+          content: item.text,
+        });
+      } else {
+        const content = JSON.stringify({
+          thought: item.text,
+          command: item.command?.command,
+          parameters: item.command?.parameters,
+        })
+
+        messages.push({
+          role: MessageRole.assistant,
+          content,
+        });
+
+        if (item.command?.result) {
+          messages.push({
+            role: MessageRole.assistant,
+            content: item.command.result,
+          });
+        }
+      }
+    });
+    return messages;
+  }
+
+  const ask = async (description: string, text: string) => {
+    setLoading(true);
+
+    const callbacks = {
+      onMessage: ((message: ConversationItem) => {
+        console.log("Received message:", message);
+        addConversationItem(message);
+      }),
+    
+      onClose: (() => {
+        setLoading(false);
+      }),
+    
+      onError: ((error: any) => {
+        console.error("EventSource error:", error);
+        setLoading(false);
+      })
+    }
+
+    try {
+      const messages = convertToMessages();
+      await api.ask(description, text, callbacks, messages);
+    } catch (error) {
+      console.error("API call error:", error);
+      setLoading(false);
+    }    
   }
 
   return {
-    reset,
     loading,
-    messages,
-    sendPrompt,
+    ask,
+    conversationItems,
+    reset
   }
 }

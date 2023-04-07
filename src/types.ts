@@ -1,0 +1,47 @@
+type Command = (this: { basePath: string }, ...args: any[]) => Promise<string>;
+
+type CommandObject = {
+  description: string;
+  parameters: string[];
+  example?: string;
+  function: Command;
+};
+
+export interface Commands {
+  [key: string]: CommandObject;
+}
+
+export enum MessageRole {
+  user = "user",
+  assistant = "assistant",
+  system = "system",
+}
+
+export interface Message {
+  role: MessageRole;
+  content: string;
+}
+
+export interface AssistantResponse {
+  thought: string;
+  command: string;
+  parameters: Record<string, string>;
+  answer?: string;
+}
+
+export enum ConversationType {
+  prompt = "prompt",
+  assistant = "assistant",
+}
+
+interface ConversationCommand {
+  command: string;
+  parameters: Record<string, string>;
+  result: string;
+}
+
+export interface ConversationItem {
+  type: ConversationType;
+  text: string;
+  command?: ConversationCommand; 
+}

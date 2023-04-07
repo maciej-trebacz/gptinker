@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
-
-export async function executeShellCommand(command: string, directory = '.') {
+ 
+export async function executeShellCommand(command: string, directory = '.'): Promise<string> {
   return new Promise((resolve, reject) => {
     exec(command, { cwd: directory }, (error, stdout, stderr) => {
       if (error) {

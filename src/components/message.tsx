@@ -1,15 +1,37 @@
-import React from 'react';
+import { ConversationItem } from "@/types";
+import React from "react";
+import { MessageContainer } from "@/components/MessageContainer";
+import { MessageCommand } from "@/components/MessageCommand";
 
-interface MessageProps {
-  message: string;
-  type: string;
-}
+export default function Message(props: ConversationItem) {
+  const [showCommand, setShowCommand] = React.useState(false);
 
-export default function Message(props: MessageProps) {
   return (
-    <div className="mt-4 p-2 border border-gray-800 rounded-md bg-gray-900 whitespace-pre-wrap">
-      <div className="uppercase font-bold text-sm text-gray-500 mb-2">{props.type}</div>
-      {props.message}
-    </div>
+    <MessageContainer type={props.type}>
+      {props.text}
+      {props.command && (
+        <div className="mt-2">
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => setShowCommand(!showCommand)}
+          >
+            <svg
+              className={
+                "w-[24px] fill-white transition-transform " +
+                (showCommand ? "rotate-90" : "rotate-0")
+              }
+              focusable="false"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+            >
+              <path d="m10 17 5-5-5-5v10z"></path>
+            </svg>
+            <span className="font-bold text-gray-400 mr-2">Execute:</span>
+            <span className="">{props.command.command}</span>
+          </div>
+          {showCommand && <MessageCommand {...props.command} />}
+        </div>
+      )}
+    </MessageContainer>
   );
 }
