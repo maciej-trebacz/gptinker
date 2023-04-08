@@ -3,17 +3,17 @@ import APICaller from '@/lib/api';
 import { ConversationItem, ConversationType, Message, MessageRole } from '@/types';
 
 export const useAssistant = () => {
-  const [conversationItems, setConversationItems] = useState<ConversationItem[]>([])
-  const [loading, setLoading] = useState(false)
-  const api = new APICaller()
+  const [conversationItems, setConversationItems] = useState<ConversationItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const api = new APICaller();
 
   const reset = () => {
     setConversationItems([]);
-  }
+  };
 
   const addConversationItem = (item: ConversationItem) => {
-    setConversationItems((prev) => [...prev, item])
-  }
+    setConversationItems((prev) => [...prev, item]);
+  };
 
   const convertToMessages = (): Message[] => {
     const messages: Message[] = [];
@@ -28,7 +28,7 @@ export const useAssistant = () => {
           thought: item.text,
           command: item.command?.command,
           parameters: item.command?.parameters,
-        })
+        });
 
         messages.push({
           role: MessageRole.assistant,
@@ -44,9 +44,9 @@ export const useAssistant = () => {
       }
     });
     return messages;
-  }
+  };
 
-  const ask = async (description: string, text: string) => {
+  const ask = async (description: string, text: string, basePath: string) => {
     setLoading(true);
 
     const callbacks = {
@@ -63,16 +63,16 @@ export const useAssistant = () => {
         console.error("EventSource error:", error);
         setLoading(false);
       })
-    }
+    };
 
     try {
       const messages = convertToMessages();
-      await api.ask(description, text, callbacks, messages);
+      await api.ask(description, text, callbacks, messages, basePath);
     } catch (error) {
       console.error("API call error:", error);
       setLoading(false);
     }    
-  }
+  };
 
   return {
     loading,

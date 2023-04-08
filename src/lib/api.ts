@@ -35,12 +35,14 @@ class APICaller {
       onClose: () => void,
       onError: (error: Error) => void
     },
-    messages: Message[]
+    messages: Message[],
+    basePath: string
   ): Promise<void> {
     const body = {
       description,
       text,
       messages,
+      basePath
     };
 
     const response = await this.fetchWrapper("/ask", "POST", body);
