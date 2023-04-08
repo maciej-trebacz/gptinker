@@ -1,33 +1,32 @@
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { nightOwl } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import { MessageCommandParam } from './MessageCommandParam';
+
 export function MessageCommand(props: {
   result: string;
   command: string;
   parameters?: Record<string, string>;
 }) {
+  const commandContent = [
+    ...Object.entries(props.parameters || {}),
+    ['Result', props.result],
+  ];
+
   return (
     <>
-      {props.parameters &&
-        Object.entries(props.parameters).map(([key, value], index) => (
-          <div className="mt-2 pl-2 flex" key={index}>
-            <div className="text-xs text-gray-500 font-semibold mr-2 w-20 text-right flex-shrink-0">
-              {key}
+      {commandContent.map(([key, value], index) => (
+        <MessageCommandParam key={index} label={key}>
+          {props.command === 'WriteFile' && key === 'content' || props.command === 'ReadFile' && key === 'Result' ? (
+            <SyntaxHighlighter language="typescript" style={nightOwl} className="text-xs text-gray-200 font-mono whitespace-pre" customStyle={{background: 'transparent', padding: 0}}>
+              {value}
+            </SyntaxHighlighter>
+          ) : (
+            <div className="text-xs text-gray-200 font-mono whitespace-pre">
+              {value}
             </div>
-            <div className="overflow-scroll max-h-[200px]">
-              <div className="text-xs text-gray-200 font-mono whitespace-pre">
-                {value}
-              </div>
-            </div>
-          </div>
-        ))}
-      <div className="mt-2 pl-2 flex">
-        <div className="text-xs text-gray-500 font-semibold mr-2 w-20 text-right flex-shrink-0">
-          Result
-        </div>
-        <div className="overflow-scroll max-h-[200px]">
-          <div className="text-xs text-gray-200 font-mono whitespace-pre">
-            {props.result}
-          </div>
-        </div>
-      </div>
+          )}
+        </MessageCommandParam>
+      ))}
     </>
   );
 }
