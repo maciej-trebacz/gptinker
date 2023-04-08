@@ -1,4 +1,4 @@
-type Command = (this: { basePath: string }, ...args: any[]) => Promise<string>;
+type Command = (this: { basePath: string }, ...args: string[]) => Promise<string>;
 
 type CommandObject = {
   description: string;

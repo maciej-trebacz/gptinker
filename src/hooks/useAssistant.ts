@@ -59,7 +59,7 @@ export const useAssistant = () => {
         setLoading(false);
       }),
     
-      onError: ((error: any) => {
+      onError: ((error: Error) => {
         console.error("EventSource error:", error);
         setLoading(false);
       })

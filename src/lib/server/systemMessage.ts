@@ -26,7 +26,7 @@ const getExamples = () => {
     .join('\n\n')
 }
 
-export const getSystemMessage = (appDescription: string, language: string = "Typescript") => {
+export const getSystemMessage = (appDescription: string, language = "Typescript") => {
   return `
 You are an AI developer tasked with adding features and fixing bugs in an existing ${language} application. It's a ${appDescription}. You can interact with this codebase using the following commands:
 ${getCommandList()}

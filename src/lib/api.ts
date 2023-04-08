@@ -3,14 +3,14 @@ import { Message } from "@/types";
 class APICaller {
   private baseURL: string;
 
-  constructor(baseURL: string = "/api") {
+  constructor(baseURL = "/api") {
     this.baseURL = baseURL;
   }
 
   private async fetchWrapper(
     endpoint: string,
     method: string,
-    body: any
+    body: unknown
   ): Promise<Response> {
     const response = await fetch(this.baseURL + endpoint, {
       method,
@@ -31,9 +31,9 @@ class APICaller {
     description: string,
     text: string,
     callbacks: {
-      onMessage: (message: any) => void,
+      onMessage: (message: unknown) => void,
       onClose: () => void,
-      onError: (error: any) => void
+      onError: (error: Error) => void
     },
     messages: Message[]
   ): Promise<void> {

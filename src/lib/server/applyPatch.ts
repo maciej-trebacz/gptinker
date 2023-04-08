@@ -31,7 +31,7 @@ export function applyPatch(filePath: string, patch: Patch): boolean {
     writeFileSync(filePath, updatedContent, 'utf-8');
 
     return true;
-  } catch (error: any) {
+  } catch (error) {
     return false;
   }
 }

@@ -3,7 +3,6 @@ import path from "path";
 import { Commands } from "@/types";
 import { executeShellCommand } from "@/lib/server/executeShellCommand";
 import { listFilesRecursively } from "@/lib/server/listFiles";
-import { applyPatch } from '@/lib/server/applyPatch';
 
 const sanitize = (text: string) => {
   // Strip ANSI escape codes
@@ -69,7 +68,7 @@ export const commands: Commands = {
       try {
         const response = await executeShellCommand(command, this.basePath);
         return sanitize(response);
-      } catch (e: any) {
+      } catch (e) {
         const errorPrompt = `Command "${command}" failed to execute. Give the user up to three options on how to proceed in the 'options' field. Use the following format:
 {
   "thought": "Running the tests failed because there is no test runner installed. Please choose one of the following options:",
@@ -78,7 +77,7 @@ export const commands: Commands = {
     "Install Mocha and try again"
   ]
 }`;
-        return `Error when executing command: ${sanitize(e.message)}\n\n${errorPrompt}`;
+        return `Error when executing command: ${sanitize((e as Error).message)}\n\n${errorPrompt}`;
       }
     },
   },
