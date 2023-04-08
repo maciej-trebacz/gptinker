@@ -3,6 +3,7 @@ import { Assistant } from '@/lib/server/assistant'
 import { Message } from '@/types'
 
 interface AskRequest {
+  basePath: string
   description: string
   text: string
   messages: Message[]
@@ -15,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const params = req.body as AskRequest;
-  const assistant = new Assistant(params.description, params.messages, (message) => {
+  const assistant = new Assistant(params.basePath, params.description, params.messages, (message) => {
     res.write(`data: ${JSON.stringify(message)}\n\n`);
   });
 

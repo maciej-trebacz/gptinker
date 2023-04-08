@@ -8,17 +8,21 @@ import Suggestions from '@/components/Suggestions';
 import { useAssistant } from '@/hooks/useAssistant';
 import CollapsableSection from '@/components/CollapsableSection';
 
-const appDescription = `It's a Next.js application written in Typescript called GPTinker - an AI developer assistant that helps you navigate and modify codebases`;
+interface AssistantProps {
+  description: string;
+  basePath: string;
+}
 
-export default function Assistant() {
+export default function Assistant(props: AssistantProps) {
   const { loading, ask, conversationItems, reset } = useAssistant();
-  const [description, setDescription] = React.useState(appDescription);
-  const [basePath, setBasePath] = React.useState(process.env.BASE_PATH || '');
+  const [description, setDescription] = React.useState(props.description || '');
+  const [basePath, setBasePath] = React.useState(props.basePath || '');
   const suggestions = conversationItems[conversationItems.length - 1]?.options;
 
   return (
     <>
       <CollapsableSection title="Options"> 
+      <div className="p-4 border border-slate-600 bg-slate-900 rounded-md mt-4">
         <Description
           value={description}
           onChange={(value) => setDescription(value)}
@@ -27,6 +31,7 @@ export default function Assistant() {
           value={basePath}
           onChange={(value) => setBasePath(value)}
         />
+      </div>
       </CollapsableSection>
       {conversationItems.map((item, index) => (
         <Message key={index} {...item} />

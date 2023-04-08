@@ -9,8 +9,8 @@ export class Assistant {
   private systemMessage: string;
   private onMessage: (message: ConversationItem) => void;
 
-  constructor(description: string, messages: Message[] = [], onMessage: (message: ConversationItem) => void) {
-    this.basePath = process.env.BASE_PATH + "";
+  constructor(basePath: string, description: string, messages: Message[] = [], onMessage: (message: ConversationItem) => void) {
+    this.basePath = basePath;
     this.systemMessage = getSystemMessage(description);
     this.onMessage = onMessage;
     this.messages = messages;
