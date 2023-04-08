@@ -1,10 +1,10 @@
 import React from 'react';
 import Loading from '@/components/Loading';
 import Prompt from '@/components/Prompt';
-import Message from '@/components/Message';
+import Message from '@/components/message/Message';
 import Description from '@/components/Description';
 import Suggestions from '@/components/Suggestions';
-import { useAssistant } from '../hooks/useAssistant';
+import { useAssistant } from '@/hooks/useAssistant';
 
 const appDescription = `It's a Next.js application written in Typescript called GPTinker - an AI developer assistant that helps you navigate and modify codebases`;
 

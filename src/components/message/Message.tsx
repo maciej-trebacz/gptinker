@@ -1,7 +1,7 @@
-import { ConversationItem } from "@/types";
 import React from "react";
-import { MessageContainer } from "@/components/MessageContainer";
-import { MessageCommand } from "@/components/MessageCommand";
+import { ConversationItem } from "@/types";
+import { MessageContainer } from "./MessageContainer";
+import { MessageCommand } from "./MessageCommand";
 
 export default function Message(props: ConversationItem) {
   const [showCommand, setShowCommand] = React.useState(false);

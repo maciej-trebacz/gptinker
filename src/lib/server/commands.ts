@@ -32,7 +32,15 @@ export const commands: Commands = {
       return fs.readFileSync(path.join(this.basePath, filename), "utf8");
     },
   },
-  /*
+  WriteFile: {
+    description: "write content to a given file",
+    parameters: ['filename', 'content'],
+    function: async function (filename: string, content: string) {
+      fs.writeFileSync(path.join(this.basePath, filename), content);
+      // TODO: Run linter for this file
+      return `File ${filename} written successfully.`;
+    },
+  },
   PatchFile: {
     description: "applies a single change to a file. Format the change using the diff format (with - and + signs at the beginning of changed lines) and 2-line context, omitting the lines that didn't change",
     parameters: ['filename', 'patch'],
@@ -50,16 +58,6 @@ export const commands: Commands = {
         after: patch.split('\n').filter(line => line.startsWith('+')).map(line => line.slice(1)),
       });
       return `Changes to file ${filename} written successfully.`;
-    },
-  },
-  */
-  WriteFile: {
-    description: "write content to a given file",
-    parameters: ['filename', 'content'],
-    function: async function (filename: string, content: string) {
-      fs.writeFileSync(path.join(this.basePath, filename), content);
-      // TODO: Run linter for this file
-      return `File ${filename} written successfully.`;
     },
   },
   RunCommand: {

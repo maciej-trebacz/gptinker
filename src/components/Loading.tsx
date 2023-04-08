@@ -1,6 +1,6 @@
 // components/LoadingSpinner.js
 import React from "react";
-import { MessageContainer } from "./MessageContainer";
+import { MessageContainer } from "@/components/message/MessageContainer";
 import { ConversationType } from "@/types";
 
 export default function Loading() {
