@@ -41,6 +41,7 @@ export const commands: Commands = {
       return `File ${filename} written successfully.`;
     },
   },
+  /* TODO: Need to fix this command, GPT usually gets the diff syntax wrong
   PatchFile: {
     description: "applies a single change to a file. Format the change using the diff format (with - and + signs at the beginning of changed lines) and 2-line context, omitting the lines that didn't change",
     parameters: ['filename', 'patch'],
@@ -60,6 +61,7 @@ export const commands: Commands = {
       return `Changes to file ${filename} written successfully.`;
     },
   },
+  */
   RunCommand: {
     description: "runs a command in the shell in the repository directory so you can install dependencies, create directories, run tests, etc.",
     parameters: ['command'],
