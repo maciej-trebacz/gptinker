@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import Textarea from './forms/Textarea';
 
 interface DescriptionProps {
   value: string;
@@ -8,12 +9,10 @@ interface DescriptionProps {
 export default function Description(props: DescriptionProps) {
   return (
     <>
-      <h3 className="uppercase font-semibold text-gray-400">Description</h3>
-      <textarea
-        className="w-full p-2 border border-gray-800 rounded-md bg-gray-950 outline-gray-600"
-        rows={3}
+      <h3 className='uppercase font-semibold text-gray-400'>Description</h3>
+      <Textarea
+        value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
-        defaultValue={props.value}
       />
     </>
   );

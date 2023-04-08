@@ -1,4 +1,5 @@
 import React from 'react';
+import Textarea from './forms/Textarea';
 
 interface PromptProps {
   onSubmit: (prompt: string) => void;
@@ -19,12 +20,7 @@ export default function Prompt(props: PromptProps) {
   return (
     <form onSubmit={handleSubmit}>
       <h3 className='uppercase font-semibold text-gray-400 mt-4'>Prompt</h3>
-      <textarea
-        value={prompt}
-        className="w-full p-2 border border-gray-800 rounded-md bg-gray-950 outline-gray-600"
-        onChange={(e) => setPrompt(e.target.value)}
-        rows={3}
-      />
+      <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} />
       <button type="submit" className="mt-4 w-full p-2 border border-gray-800 rounded-md bg-gray-900 hover:bg-gray-700">Submit</button>
       <button type="button" className="mt-4 w-full p-2 " onClick={() => props.onReset()}>Reset</button>
     </form>
