@@ -3,6 +3,7 @@ import path from "path";
 import { Commands } from "@/types";
 import { executeShellCommand } from "@/lib/server/executeShellCommand";
 import { listFilesRecursively } from "@/lib/server/listFiles";
+import { findFiles } from "@/lib/server/findFiles";
 
 const sanitize = (text: string) => {
   // Strip ANSI escape codes
@@ -87,4 +88,11 @@ export const commands: Commands = {
       }
     },
   },
+  FindFiles: {
+    description: "finds all files in the repository that contain a given string, returns only partial results so you need to ReadFile to get the full content later",
+    parameters: ['text'],
+    function: async function (text: string) {
+      return await findFiles(text, this.basePath) + "\n\nNote that these are only partial results so you need to ReadFile to get the full content later."
+    }
+  }
 };
