@@ -1,4 +1,4 @@
-import { Message } from "@/types";
+import { ConversationItem, Message } from "@/types";
 
 class APICaller {
   private baseURL: string;
@@ -31,7 +31,7 @@ class APICaller {
     description: string,
     text: string,
     callbacks: {
-      onMessage: (message: unknown) => void,
+      onMessage: (message: ConversationItem) => void,
       onClose: () => void,
       onError: (error: Error) => void
     },

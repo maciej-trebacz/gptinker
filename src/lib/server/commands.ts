@@ -36,8 +36,14 @@ export const commands: Commands = {
     parameters: ['filename', 'content'],
     function: async function (filename: string, content: string) {
       fs.writeFileSync(path.join(this.basePath, filename), content);
-      // TODO: Run linter for this file
-      return `File ${filename} written successfully.`;
+
+      // TODO: Linting should be configurable
+      try {
+        await executeShellCommand("npm run lint", this.basePath);
+        return `File ${filename} written successfully.`;
+      } catch (error) {
+        return `File ${filename} written successfully, but linting failed with the following error: ${sanitize((error as Error).message)}`;
+      }
     },
   },
   /* TODO: Need to fix this command, GPT usually gets the diff syntax wrong
