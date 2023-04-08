@@ -1,5 +1,6 @@
 export function MessageCommand(props: {
   result: string;
+  command: string;
   parameters?: Record<string, string>;
 }) {
   return (

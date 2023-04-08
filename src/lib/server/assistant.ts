@@ -43,7 +43,8 @@ export class Assistant {
     if (!response.command) {
       this.onMessage({
         type: ConversationType.assistant,
-        text: response.answer || response.thought
+        text: response.answer || response.thought,
+        options: response.options,
       })
       return;
     }
@@ -55,7 +56,7 @@ export class Assistant {
       text: response.thought,
       command: {
         command: response.command,
-        parameters: response.parameters,
+        parameters: response.parameters || {},
         result,
       }
     })

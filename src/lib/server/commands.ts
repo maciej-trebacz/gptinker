@@ -5,6 +5,17 @@ import { executeShellCommand } from "@/lib/server/executeShellCommand";
 import { listFilesRecursively } from "@/lib/server/listFiles";
 import { applyPatch } from '@/lib/server/applyPatch';
 
+const sanitize = (text: string) => {
+  // Strip ANSI escape codes
+  let result = text.replace(/\u001b\[[0-9]{1,2}m/g, "");
+
+  // Strip non-ascii characters
+  result = result.replace(/[^\x00-\x7F]/g, "");
+
+  // Trim the error message to 1500 characters if its too long
+  return result.length > 1500 ? result.slice(0, 1500) + "..." : result;
+}
+
 export const commands: Commands = {
   ListFiles: {
     description: "produce a tree of directories and files in the repository",
@@ -47,6 +58,7 @@ export const commands: Commands = {
     parameters: ['filename', 'content'],
     function: async function (filename: string, content: string) {
       fs.writeFileSync(path.join(this.basePath, filename), content);
+      // TODO: Run linter for this file
       return `File ${filename} written successfully.`;
     },
   },
@@ -56,9 +68,17 @@ export const commands: Commands = {
     function: async function (command: string) {
       try {
         const response = await executeShellCommand(command, this.basePath);
-        return response;
-      } catch (e) {
-        return 'ERROR: ' + e;
+        return sanitize(response);
+      } catch (e: any) {
+        const errorPrompt = `Command "${command}" failed to execute. Give the user up to three options on how to proceed in the 'options' field. Use the following format:
+{
+  "thought": "Running the tests failed because there is no test runner installed. Please choose one of the following options:",
+  "options": [
+    "Install Jest and React Testing Library and try again",
+    "Install Mocha and try again"
+  ]
+}`;
+        return `Error when executing command: ${sanitize(e.message)}\n\n${errorPrompt}`;
       }
     },
   },

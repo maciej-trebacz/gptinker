@@ -24,8 +24,9 @@ export interface Message {
 
 export interface AssistantResponse {
   thought: string;
-  command: string;
-  parameters: Record<string, string>;
+  options?: string[];
+  command?: string;
+  parameters?: Record<string, string>;
   answer?: string;
 }
 
@@ -43,5 +44,6 @@ interface ConversationCommand {
 export interface ConversationItem {
   type: ConversationType;
   text: string;
+  options?: string[];
   command?: ConversationCommand; 
 }

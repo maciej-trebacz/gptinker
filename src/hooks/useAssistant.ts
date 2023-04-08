@@ -1,18 +1,6 @@
 import { useState } from 'react'
 import APICaller from '@/lib/api';
-import { ConversationType, Message, MessageRole } from '@/types';
-
-interface ConversationCommand {
-  command: string;
-  parameters: Record<string, string>;
-  result: string;
-}
-
-export interface ConversationItem {
-  type: ConversationType;
-  text: string;
-  command?: ConversationCommand; 
-}
+import { ConversationItem, ConversationType, Message, MessageRole } from '@/types';
 
 export const useAssistant = () => {
   const [conversationItems, setConversationItems] = useState<ConversationItem[]>([])
