@@ -2,6 +2,8 @@
 
 A proof of concept of a LLM-based developer sidekick that can make changes in existing code repositories. GPTinker is a Next.js application written in TypeScript that helps you navigate and modify codebases.
 
+Short video demo: https://www.youtube.com/watch?v=XgMKCeiUDQc
+
 ## Prerequisites
 
 1. Node.js 12.x or later
