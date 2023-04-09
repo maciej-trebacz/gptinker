@@ -1,11 +1,12 @@
-import { AssistantResponse, Message } from '@/types'
+import { AssistantResponse, Message, OpenAIError } from '@/types'
 
 interface OpenAIResponse {
   choices: {
     message: {
       content: string
     }
-  }[]
+  }[],
+  error?: OpenAIError
 }
 
 async function tryTimes<T>(promiseFn: () => T, maxTries=10): Promise<T> {
@@ -38,26 +39,15 @@ async function request(messages: Message[]): Promise<AssistantResponse> {
 
 
   const responseJson = await response.json() as OpenAIResponse;
-  // TODO: Error handling, eg.:
-  /*
-    error: {
-      message: 'You exceeded your current quota, please check your plan and billing details.',
-      type: 'insufficient_quota',
-      param: null,
-      code: null
-    }
-
-    OR 
-
-    error: {
-      message: "This model's maximum context length is 8192 tokens. However, your messages resulted in 17020 tokens. Please reduce the length of the messages.",
-      type: 'invalid_request_error',
-      param: 'messages',
-      code: 'context_length_exceeded'
-    }
-  */
-
   console.log("GPT RESPONSE:", responseJson)
+
+  if (responseJson.error) {
+    return {
+      thought: 'OpenAI API encountered an error.',
+      error: responseJson.error
+    }
+  }
+
   const content = responseJson.choices?.[0]?.message?.content
   console.log("GPT RESPONSE CONTENT:\n", responseJson.choices?.[0]?.message?.content)
 

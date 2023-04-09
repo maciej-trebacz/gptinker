@@ -45,6 +45,7 @@ export class Assistant {
         type: ConversationType.assistant,
         text: response.answer || response.thought,
         options: response.options,
+        error: response.error,
       })
       return;
     }

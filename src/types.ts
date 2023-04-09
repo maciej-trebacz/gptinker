@@ -22,12 +22,20 @@ export interface Message {
   content: string;
 }
 
+export interface OpenAIError {
+  message: string
+  type: string
+  param: string
+  code: string
+}
+
 export interface AssistantResponse {
   thought: string;
   options?: string[];
   command?: string;
   parameters?: Record<string, string>;
   answer?: string;
+  error?: OpenAIError;
 }
 
 export enum ConversationType {
@@ -46,4 +54,5 @@ export interface ConversationItem {
   text: string;
   options?: string[];
   command?: ConversationCommand; 
+  error?: OpenAIError;
 }
