@@ -1,15 +1,18 @@
-import { ConversationType } from "@/types";
+import { ConversationType, OpenAIError } from "@/types";
 
 export function MessageContainer(props: {
   type: ConversationType;
+  error?: OpenAIError;
   children: React.ReactNode;
 }) {
   const isPrompt = props.type === ConversationType.prompt;
   const position = isPrompt ? "justify-end" : "";
-  const boxColors = isPrompt
-    ? "border-blue-800 bg-blue-900"
-    : "border-gray-800 bg-gray-900";
-  const typeClass = isPrompt ? "text-blue-300 text-right" : "text-gray-400";
+  const boxColors = props.error
+    ? 'border-red-500 bg-red-600'
+    : isPrompt
+    ? 'border-blue-800 bg-blue-900'
+    : 'border-gray-800 bg-gray-900';
+  const typeClass = props.error ? "text-red-300" : isPrompt ? "text-blue-300 text-right" : "text-gray-400";
   return (
     <div className={`flex ${position}`}>
       <div
