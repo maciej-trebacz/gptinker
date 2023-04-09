@@ -7,7 +7,7 @@ A proof of concept of a LLM-based developer sidekick that can make changes in ex
 1. Node.js 12.x or later
 2. npm, yarn, or pnpm package manager
 
-## Environment Variable$$s
+## Environment Variables
 
 Create a `.env.local` file in the root directory of the project, and add your environment variables. Use the `.env` file as a reference. Here's an example of the required environment variables:
 
@@ -20,7 +20,7 @@ APP_DESCRIPTION="It's a Next.js application written in Typescript called GPTinke
 ```
 
 ## Available Scripts
-$$
+
 - `dev`: Run the app in development mode.
 - `build`: Build the app for production.
 - `start`: Start a production server.
