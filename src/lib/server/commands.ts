@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
 import { Commands } from "@/types";
-import { executeShellCommand } from "@/lib/server/executeShellCommand";
-import { listFilesRecursively } from "@/lib/server/listFiles";
-import { findFiles } from "@/lib/server/findFiles";
-import { sanitize } from "@/lib/server/sanitize";
-import { getErrorPrompt } from "@/lib/server/errorPrompt";
+import { executeShellCommand } from "@/lib/server/util/executeShellCommand";
+import { listFilesRecursively } from "@/lib/server/util/listFiles";
+import { findFiles } from "@/lib/server/util/findFiles";
+import { sanitize } from "@/lib/server/util/sanitize";
+import { getErrorPrompt } from "@/lib/server/util/errorPrompt";
 
 export const commands: Commands = {
   ListFiles: {

@@ -1,7 +1,7 @@
 import { execute } from "@/lib/server/executor";
 import { callGPT } from "@/lib/server/callgpt";
 import { ConversationItem, ConversationType, Message, MessageRole } from "@/types";
-import { getSystemMessage } from "@/lib/server/systemMessage";
+import { getSystemMessage } from "@/lib/server/util/systemMessage";
 
 export class Assistant {
   private basePath: string;

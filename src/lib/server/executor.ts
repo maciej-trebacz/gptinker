@@ -1,6 +1,6 @@
 import { commands } from "@/lib/server/commands";
-import { sanitize } from "@/lib/server/sanitize";
-import { getErrorPrompt } from "@/lib/server/errorPrompt";
+import { sanitize } from "@/lib/server/util/sanitize";
+import { getErrorPrompt } from "@/lib/server/util/errorPrompt";
 
 export const execute = async (
   basePath: string,
