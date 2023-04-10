@@ -2,11 +2,10 @@ import React from 'react';
 import Loading from '@/components/Loading';
 import Prompt from '@/components/Prompt';
 import Message from '@/components/message/Message';
-import Description from '@/components/Description';
-import BasePath from '@/components/BasePath';
 import Suggestions from '@/components/Suggestions';
 import { useAssistant } from '@/hooks/useAssistant';
 import CollapsableSection from '@/components/CollapsableSection';
+import { Options } from '@/components/Options';
 
 interface AssistantProps {
   description: string;
@@ -21,17 +20,13 @@ export default function Assistant(props: AssistantProps) {
 
   return (
     <>
-      <CollapsableSection title="Options"> 
-      <div className="p-4 border border-slate-600 bg-slate-900 rounded-md mt-4">
-        <Description
-          value={description}
-          onChange={(value) => setDescription(value)}
+      <CollapsableSection title='Options'> 
+        <Options
+          description={description}
+          basePath={basePath}
+          onDescriptionChange={(value) => setDescription(value)}
+          onBasePathChange={(value) => setBasePath(value)}
         />
-        <BasePath
-          value={basePath}
-          onChange={(value) => setBasePath(value)}
-        />
-      </div>
       </CollapsableSection>
       {conversationItems.map((item, index) => (
         <Message key={index} {...item} />
