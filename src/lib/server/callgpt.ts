@@ -1,5 +1,7 @@
 import { AssistantResponse, Message, OpenAIError } from '@/types'
 
+const TIMEOUT = 60000
+
 interface OpenAIResponse {
   choices: {
     message: {
@@ -25,6 +27,8 @@ async function tryTimes<T>(promiseFn: () => T, maxTries=10): Promise<T> {
 async function request(messages: Message[]): Promise<AssistantResponse> {
   console.log("CALLING GPT WITH MESSAGES:", messages.slice(1))
 
+  const abortController = new AbortController()
+  const timeout = setTimeout(() => abortController.abort(), TIMEOUT);  
   const response = await fetch(process.env.OPENAI_API_URL + '', {
     method: "POST",
     headers: {
@@ -35,8 +39,9 @@ async function request(messages: Message[]): Promise<AssistantResponse> {
       model: process.env.OPENAI_MODEL,
       messages
     }),
+    signal: abortController.signal
   });
-
+  clearTimeout(timeout);
 
   const responseJson = await response.json() as OpenAIResponse;
   console.log("GPT RESPONSE:", responseJson)

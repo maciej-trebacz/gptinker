@@ -16,8 +16,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const params = req.body as AskRequest;
-  const assistant = new Assistant(params.basePath, params.description, params.messages, (message) => {
-    res.write(`data: ${JSON.stringify(message)}\n\n`);
+  const assistant = new Assistant(params.basePath, params.description, params.messages, (item) => {
+    // Sends conversation items via Server-Sent Events back to the client
+    res.write(`data: ${JSON.stringify(item)}\n\n`);
   });
 
   res.setHeader("Content-Type", "text/event-stream");
