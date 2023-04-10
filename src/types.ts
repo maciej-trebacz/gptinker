@@ -24,9 +24,9 @@ export interface Message {
 
 export interface OpenAIError {
   message: string
-  type: string
-  param: string
-  code: string
+  type?: string
+  param?: string
+  code?: string
 }
 
 export interface AssistantResponse {

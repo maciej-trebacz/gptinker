@@ -4,9 +4,7 @@ import { MessageContainer } from "./MessageContainer";
 import { MessageCommand } from "./MessageCommand";
 import CollapsableSection from "@/components/CollapsableSection";
 
-export default function Message(
-  props: ConversationItem & { error?: boolean; errorDetails?: string }
-) {
+export default function Message(props: ConversationItem) {
   return (
     <MessageContainer type={props.type} error={props.error}>
       {props.text}

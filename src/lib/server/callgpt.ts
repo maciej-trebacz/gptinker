@@ -25,7 +25,12 @@ async function tryTimes<T>(promiseFn: () => T, maxTries=10): Promise<T> {
 }
 
 async function request(messages: Message[]): Promise<AssistantResponse> {
-  console.log("CALLING GPT WITH MESSAGES:", messages.slice(1))
+  const stripFirstThreeLines = (str: string) => {
+    const lines = str.split('\n')
+    return lines.slice(0, 3).join('\n')
+  }
+
+  console.log("CALLING GPT WITH MESSAGES:", messages.map(m => ({role: m.role, content: stripFirstThreeLines(m.content.substring(0, 500))})))
 
   const abortController = new AbortController()
   const timeout = setTimeout(() => abortController.abort(), TIMEOUT);  

@@ -18,6 +18,7 @@
     "chatgpt": "^5.2.2",
     "eslint": "8.37.0",
     "eslint-config-next": "^13.2.0",
+    "gpt4-tokenizer": "^1.1.0",
     "next": "^13.2.0",
     "postcss": "^8.4.21",
     "react": "^18.2.0",

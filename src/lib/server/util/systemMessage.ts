@@ -48,3 +48,10 @@ ${getExamples()}
 After you fulfil you goal respond with a JSON object that doesn't contain any command, only your final thoughts. 
 If the initial prompt is a question, return the final answer in the "answer" field. Do not return any other fields. The answer should be in text format and use new lines for formatting.`
 }
+
+export const getSummarySystemMessage = (query: string, appDescription: string, language = "Typescript") => {
+  return `
+You are an AI developer tasked with adding features and fixing bugs in an existing ${language} application. It's a ${appDescription}. You can interact with this codebase using the following commands: ${getCommandNames()}.
+
+The user gave you the following query: ${query}. Below is a record of your previous conversation with the user, the actions taken by you and the results of these actions. Summarize each conversation item, noting down what was required to do, what you did (do not include any file contents but summarize the changes) and what the result was. When referring to files use their full paths. At the end list the remaining steps that need to be taken to satisfy the user's query. Use plaintext format for the summary. Skip all other prose.`
+}
