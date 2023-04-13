@@ -49,3 +49,7 @@ npm run test
 # or
 yarn test
 ```
+
+## Docker
+
+There is also a Dockerfile included for one-click running. Just run the command `docker-compose up` and the app will start and be available at [http://localhost:3000](http://localhost:3000).
