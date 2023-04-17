@@ -53,3 +53,5 @@ yarn test
 ## Docker
 
 There is also a Dockerfile included for one-click running. Just run the command `docker-compose up` and the app will start and be available at [http://localhost:3000](http://localhost:3000).
+
+When running the app from Docker remember that the app will not have full access to your local filesystem, so if you just want to test it out on itself put `/app` in the Base Path option.
